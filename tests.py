@@ -37,8 +37,8 @@ class TestKnowruMarkdownTestCase(unittest.TestCase):
         self.assertEqual(result, """<blockquote>
     <p>some content</p>
     <footer>some footer in <cite title="cite title">cite content</cite></footer>
-</blockquote>
-""")
+</blockquote>""")
 
 if __name__ == '__main__':
     unittest.main()
+
