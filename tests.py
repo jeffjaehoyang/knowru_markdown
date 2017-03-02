@@ -20,7 +20,7 @@ class TestKnowruMarkdownTestCase(unittest.TestCase):
     def test_figure_with_title_but_without_caption(self):
         result = markdown_to_html('![Alt text](/path/to/img.jpg "Optional title")')
         self.assertEqual(result, """<figure>
-    <img src="/path/to/img.jpg" alt="Alt text" title="Optional title" />
+    <img alt="Alt text" src="/path/to/img.jpg" title="Optional title" />
 </figure>
 """)
 
