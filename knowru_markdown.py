@@ -3,13 +3,14 @@ from markdown import markdown
 def markdown_to_html(user_given_text):
 
 
-    text_length = len(user_given_text)
-    p_content = ''
-    footer = ''
-    cite_content = ''
-    cite_title = ''
-
     if user_given_text[0] == '>':
+        
+        text_length = len(user_given_text)
+        p_content = ''
+        footer = ''
+        cite_content = ''
+        cite_title = ''
+
         for x in range(2, text_length):
             if user_given_text[x] == '(':
                 x = x + 2
@@ -42,10 +43,19 @@ def markdown_to_html(user_given_text):
             + '</p>\n' + '    <footer>' + footer + ' in ' + '<cite title=' \
             + '"' + cite_title + '">' + cite_content \
             + '</cite></footer>\n' + '</blockquote>'
-    
-    html = markdown(user_given_text)
+
+        html = markdown(user_given_text)
+
+
+    else:
+        html = markdown(user_given_text)
+        
+        if html.startswith('<p><img'):
+            html = html.replace('<p><img','<figure>\n    <img').replace('</p>','\n</figure>\n')
+
+
     return html
 
-
+        
 
 
