@@ -43,6 +43,17 @@ class TestKnowruMarkdownTestCase(unittest.TestCase):
 </blockquote>
 """)
 
+    def test_code_block(self):
+        result = markdown_to_html("""``` python
+def sum(a, b):
+    return a + b
+```""")
+        self.assertEqual(result, u"""<pre class="brush: python">
+def sum(a, b):
+    return a + b
+</pre>
+""")
+
 
 
 if __name__ == '__main__':
