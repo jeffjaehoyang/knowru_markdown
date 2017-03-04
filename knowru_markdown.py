@@ -2,30 +2,28 @@ from markdown import markdown
 import re
 
 def markdown_to_html(user_given_text):
+    if user_given_text.startswith('>'):
+        match_obj = re.match(r'> (.*)\("(.*)" \["(.*)" "(.*)"]\)', user_given_text)
 
+        html = u"""<blockquote>
+    <p>{}</p>
+    <footer>{} in <cite title="{}">{}</cite></footer>
+</blockquote>
+""".format(match_obj.group(1), match_obj.group(2), match_obj.group(4), match_obj.group(3))
 
-    if user_given_text[0] == '>':
-        matchObj = re.match(r'> (.*)\("(.*)" \["(.*)" "(.*)"]\)', user_given_text)
+    elif user_given_text.startswith("!["):
+        match_obj = re.match(r'!\[(.*)\]\((\S*)( "([^\']*)")?( \'(.*)\')?\)', user_given_text)
+        html = u"""<figure>
+    <img alt="{}" src="{}" title="{}" />
+    <figcaption>{}</figcaption>
+</figure>
+""".format(
+    match_obj.group(1)
+    , match_obj.group(2)
+    , match_obj.group(4) if match_obj.group(4) else unicode()
+    , match_obj.group(6) if match_obj.group(6) else unicode()
+)
 
-        html = '<blockquote>\n' + '    <p>' + matchObj.group(1) \
-            + '</p>\n' + '    <footer>' + matchObj.group(2) + ' in ' + '<cite title=' \
-            + '"' + matchObj.group(4) + '">' + matchObj.group(3) \
-            + '</cite></footer>\n' + '</blockquote>'
     else:
-        figcaption = str()
-        if user_given_text.startswith("!["):
-            html_split = user_given_text.split(' "')
-            if len(html_split) > 2:
-                figcaption = html_split[2]
-                user_given_text = html_split[0] + ' "' + html_split[1] + ")"
-
         html = markdown(user_given_text)
-
-        if html.startswith('<p><img'):
-            html = html.replace('<p><img','<figure>\n    <img')
-            if figcaption:
-                figcaption = figcaption.replace('"', '')[:-1]
-                html = html.replace('</p>', '\n    <figcaption>{}</figcaption>\n</figure>\n'.format(figcaption))
-            else:
-                html = html.replace('</p>','\n</figure>\n')
     return unicode(html)
