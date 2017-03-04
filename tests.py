@@ -11,7 +11,7 @@ class TestKnowruMarkdownTestCase(unittest.TestCase):
         self.assertEqual(result, '<h1>this is a header</h1>')
 
     def test_figure_without_title_and_caption(self):
-        result = markdown_to_html("![Alt text](/path/to/img.jpg)")
+        result = markdown_to_html('![Alt text](/path/to/img.jpg)')
         self.assertEqual(result, """<figure>
     <img alt="Alt text" src="/path/to/img.jpg" />
 </figure>
@@ -37,8 +37,10 @@ class TestKnowruMarkdownTestCase(unittest.TestCase):
         self.assertEqual(result, """<blockquote>
     <p>some content</p>
     <footer>some footer in <cite title="cite title">cite content</cite></footer>
-</blockquote>
-""")
+</blockquote>""")
+
+
 
 if __name__ == '__main__':
     unittest.main()
+
