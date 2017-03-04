@@ -1,52 +1,16 @@
 from markdown import markdown
+import re
 
 def markdown_to_html(user_given_text):
 
 
     if user_given_text[0] == '>':
-        
-        text_length = len(user_given_text)
-        p_content = ''
-        footer = ''
-        cite_content = ''
-        cite_title = ''
+        matchObj = re.match(r'> (.*)\("(.*)" \["(.*)" "(.*)"]\)', user_given_text)
 
-        for x in range(2, text_length):
-            if user_given_text[x] == '(':
-                x = x + 2
-                break
-            else: 
-                p_content += user_given_text[x]
-        
-        for x in range(x, text_length):
-            if user_given_text[x] == '"':
-                x = x + 4
-                break
-            else:
-                footer += user_given_text[x]
-
-        for x in range(x, text_length):
-            if  user_given_text[x] == '"':
-                x = x + 3
-                break
-            else:
-                cite_content += user_given_text[x]
-
-        for x in range(x, text_length):
-            if  user_given_text[x] == '"':
-                break
-            else:
-                cite_title += user_given_text[x]
-                
-
-        user_given_text = '<blockquote>\n' + '    <p>' + p_content \
-            + '</p>\n' + '    <footer>' + footer + ' in ' + '<cite title=' \
-            + '"' + cite_title + '">' + cite_content \
+        html = '<blockquote>\n' + '    <p>' + matchObj.group(1) \
+            + '</p>\n' + '    <footer>' + matchObj.group(2) + ' in ' + '<cite title=' \
+            + '"' + matchObj.group(4) + '">' + matchObj.group(3) \
             + '</cite></footer>\n' + '</blockquote>'
-
-        html = markdown(user_given_text)
-
-
     else:
         figcaption = str()
         if user_given_text.startswith("!["):
