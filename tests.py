@@ -19,22 +19,22 @@ class TestKnowruMarkdownTestCase(unittest.TestCase):
 
     def test_figure_with_title_but_without_caption(self):
         result = markdown_to_html('![Alt text](/path/to/img.jpg "Optional title")')
-        self.assertEqual(result, """<figure>
+        self.assertEqual(result, u"""<figure>
     <img alt="Alt text" src="/path/to/img.jpg" title="Optional title" />
 </figure>
 """)
 
     def test_figure_with_title_and_caption(self):
         result = markdown_to_html('![Alt text](/path/to/img.jpg "Optional title" "Optional figcaption")')
-        self.assertEqual(result, """<figure>
-    <img src="/path/to/img.jpg" alt="Alt text" title="Optional title" />
+        self.assertEqual(result, u"""<figure>
+    <img alt="Alt text" src="/path/to/img.jpg" title="Optional title" />
     <figcaption>Optional figcaption</figcaption>
 </figure>
 """)
 
     def test_blockquote_with_footer_and_cite_content_and_title(self):
         result = markdown_to_html('> some content("some footer" ["cite content" "cite title"])')
-        self.assertEqual(result, """<blockquote>
+        self.assertEqual(result, u"""<blockquote>
     <p>some content</p>
     <footer>some footer in <cite title="cite title">cite content</cite></footer>
 </blockquote>""")
