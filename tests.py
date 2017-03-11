@@ -54,8 +54,9 @@ def sum(a, b):
 </pre>
 """)
 
-
+    def test_anchor_has_target_blank(self):
+        result= markdown_to_html('[content](http://url "title")')
+        self.assertEqual(result, '<p><a href="http://url" title="title" target="_blank">content</a></p>')
 
 if __name__ == '__main__':
     unittest.main()
-
