@@ -40,8 +40,12 @@ Paragraph
 </figure>
 <h1>Another title</h1>
 <ol>
-    <li>Ordered list</li>
-    <li>Ordered list</li>
+<li>
+<p>Ordered list</p>
+</li>
+<li>
+<p>Ordered list</p>
+</li>
 </ol>
 """)
         output_file_handler.close()
