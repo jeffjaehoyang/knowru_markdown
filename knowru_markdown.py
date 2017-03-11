@@ -33,6 +33,11 @@ def markdown_to_html(user_given_text):
     , match_obj.group(4) if match_obj.group(4) else unicode()
     , match_obj.group(6) if match_obj.group(6) else unicode()
 )
+    
+    elif user_given_text.startswith("["):
+        match_obj = re.match(r'\[(.*)\]\((.*) "(.*)"\)', user_given_text)
+        html = u"""<p><a href="{}" title="{}" target="_blank">{}</a></p>""".format(match_obj.group(2), match_obj.group(3), match_obj.group(1))
+
 
     else:
         html = markdown(user_given_text)
