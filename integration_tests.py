@@ -14,7 +14,7 @@ class KnowruMarkdownIntegrationTestTestCase(unittest.TestCase):
 
 Paragraph
 
-![Alt](http://url "Title"('Figure Caption'))
+![Alt](http://url "Title" ('Figure Caption'))
 
 # Another title
 
@@ -35,9 +35,9 @@ Paragraph
         self.assertEqual(output_file_content, """<h1>Title</h1>
 <p>Paragraph</p>
 <figure>
-    <img src="http://url title="Title" alt="Alt" />
+    <img alt="Alt" src="http://url" title="Title" />
     <figcaption>Figure Caption</figcaption>
-</figure>
+</figure>\n
 <h1>Another title</h1>
 <ol>
 <li>
@@ -46,8 +46,7 @@ Paragraph
 <li>
 <p>Ordered list</p>
 </li>
-</ol>
-""")
+</ol>""")
         output_file_handler.close()
 
     def tearDown(self):
@@ -55,3 +54,5 @@ Paragraph
 
 if __name__ == '__main__':
     unittest.main()
+
+
