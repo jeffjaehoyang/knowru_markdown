@@ -1,0 +1,35 @@
+<p>Let us create 4 more Docker containers, each of which listens to a different port.</p>
+<p><code>shell
+$ docker run -p 8001:8000 -d knowru/plumber_example
+$ docker run -p 8002:8000 -d knowru/plumber_example
+$ docker run -p 8003:8000 -d knowru/plumber_example
+$ docker run -p 8004:8000 -d knowru/plumber_example</code></p>
+<p>Because they are listening to different ports, we need <code>nginx</code> to load balance among the 5 containers.</p>
+<p><code>shell
+$ sudo docker run -v /home/spark/plumber_example/nginx.conf:/etc/nginx/conf.d/default.conf:ro -d -p 80:80 nginx</code></p>
+<p>Let us check here if our <code>nginx</code> works. Note that we do not use the port number 8000 anymore because our <code>nginx</code> listens to port 80 and distributes load to our Plumber apps running ports 8000-8004.</p>
+<p>```shell
+$ curl --data "@data.json" localhost/predict
+{"default.probability":0.3058}
+<pre class="brush: ">
+Good.</p>
+<p>Let us see if we earned any performance gain:</p>
+<p></pre>shell
+$ sudo siege -H 'Content-Type:application/json' "http://localhost/predict POST &lt; data.json" -b -c 5 -r 100
+<strong> SIEGE 3.0.5
+</strong> Preparing 5 concurrent users for battle.
+The server is now under siege..      done.</p>
+<p>Transactions:                500 hits
+Availability:             100.00 %
+Elapsed time:               8.07 secs
+Data transferred:           0.01 MB
+Response time:              0.08 secs
+Transaction rate:          61.96 trans/sec
+Throughput:             0.00 MB/sec
+Concurrency:                4.96
+Successful transactions:         500
+Failed transactions:               0
+Longest transaction:            0.14
+Shortest transaction:           0.04
+```</p>
+<p>```</p>

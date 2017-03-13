@@ -40,18 +40,30 @@ class KnowruMarkdownUnitTestTestCase(unittest.TestCase):
 </blockquote>""")
 
     def test_code_block(self):
-        result = markdown_to_html("""``` python
-def sum(a, b):
-    return a + b
+        result = markdown_to_html("""``` shell
+$ docker build -t knowru/plumber_example https://github.com/Knowru/plumber_example.git
+```
+``` shell
+$ docker run -p 8000:8000 -d knowru/plumber_example
 ```""")
-        self.assertEqual(result, u"""<pre class="brush: python">
-def sum(a, b):
-    return a + b
+        self.assertEqual(result, u"""<pre class="brush: shell">
+$ docker build -t knowru/plumber_example https://github.com/Knowru/plumber_example.git
+</pre>
+
+<pre class="brush: shell">
+$ docker run -p 8000:8000 -d knowru/plumber_example
 </pre>""")
 
-    def test_anchor_has_target_blank(self):
-        result= markdown_to_html('[content](http://url "title")')
+    def test_anchor_has_target_blank_and_is_alone(self):
+        result = markdown_to_html('[content](http://url "title")')
         self.assertEqual(result, '<p><a href="http://url" title="title" target="_blank">content</a></p>')
+
+    def test_anchor_has_target_blank_and_is_not_alone(self):
+        result = markdown_to_html('In [our last post (How to create a RESTful API for a machine learning credit model in R)](https://www.knowru.com/blog/how-create-restful-api-for-machine-learning-credit-model-in-r/ "How to create a RESTful API for a machine learning credit model in R")')
+        self.assertEqual(result, '<p>In <a href="https://www.knowru.com/blog/how-create-restful-api-for-machine-learning-credit-model-in-r/" title="How to create a RESTful API for a machine learning credit model in R" target="_blank">our last post (How to create a RESTful API for a machine learning credit model in R)</a></p>')
+
+    def test_knowru_markdown_recursion(self):
+        result
 
 if __name__ == '__main__':
     unittest.main()
